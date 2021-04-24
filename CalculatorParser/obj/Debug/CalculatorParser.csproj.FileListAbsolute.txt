@@ -1,0 +1,7 @@
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\bin\Debug\CalculatorParser.exe.config
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\bin\Debug\CalculatorParser.exe
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\bin\Debug\CalculatorParser.pdb
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\obj\Debug\CalculatorParser.csprojAssemblyReference.cache
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\obj\Debug\CalculatorParser.csproj.CoreCompileInputs.cache
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\obj\Debug\CalculatorParser.exe
+C:\Users\WILSON\source\repos\CalculatorParser\CalculatorParser\obj\Debug\CalculatorParser.pdb
