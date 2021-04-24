@@ -38,8 +38,8 @@ namespace CalculatorParser
                     double lastNumber = Double.Parse(firstResult.Peek());
                     firstResult.Pop();
                     double currentNumber = Double.Parse(ops[i]);
-                    double dividend = lastNumber / currentNumber;
-                    firstResult.Push(dividend.ToString());
+                    double quotient = lastNumber / currentNumber;
+                    firstResult.Push(quotient.ToString());
                 }
                 else
                 {
