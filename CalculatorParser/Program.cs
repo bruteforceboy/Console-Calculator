@@ -10,12 +10,12 @@ namespace CalculatorParser
     {
         // TODO: add comments!
         // add space between operators and operands e.g ( 2 + 3 + ( 5 * 6 ) )
-        
+        // uses BODMAS
+
         static string[] solve(int leftIndex, int rightIndex, string[] ops)
         {
             // computing multiplication/division first 
             // firstResult will contain equation after processing multiplication/division operations 
-
             Stack<String> firstResult = new Stack<String>(); 
             for (int i = leftIndex + 1; i < rightIndex; i++)
             {
@@ -103,13 +103,74 @@ namespace CalculatorParser
             return newEquation;
         }
 
+        static bool isValidExpression(int left, int right, string[] ops)
+        {
+            // values in even positions should be numbers 
+            // values in odd positions should be operators
+            // number of values should be odd too
+
+            for (int i = left + 1; i < right; i++)
+            {
+                if ((i - left - 1) % 2 == 0)
+                {
+                    if (!Double.TryParse(ops[i], out var parsedNumber))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (ops[i] != "+" && ops[i] != "-" && ops[i] != "/" && ops[i] != "*")
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if ((right - left - 1) % 2 == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        static bool validateBracketSequence(String[] ops)
+        {
+            int balance = 0;
+            foreach (String op in ops)
+            {
+                if (op == "(")
+                {
+                    balance += 1;
+                }
+                else if (op == ")")
+                {
+                    balance -= 1;
+                }
+                if (balance < 0)
+                {
+                    return false;
+                }
+            }
+            return (balance == 0);
+        }
+        static void invalidEquation()
+        {
+            Console.WriteLine("You entered an invalid equation");
+            Console.ReadLine();
+            Environment.Exit(0);
+        }
         static double parseEquation(string equation)
         {
-            // function assumes equation is valid 
-
             equation = equation.TrimEnd(); // remove whitespaces from the end of the equation
 
             string[] ops = equation.Split(' ');
+
+            if (!validateBracketSequence(ops))
+            {
+                invalidEquation();
+            }
+
             Stack<int> openBracket = new Stack<int>();
             for (int i = 0; i < ops.Length; i++)
             {
@@ -117,6 +178,10 @@ namespace CalculatorParser
                 {
                     int lastOpenBracketIdx = openBracket.Peek();
                     openBracket.Pop();
+                    if (!isValidExpression(lastOpenBracketIdx, i, ops))
+                    {
+                        invalidEquation();
+                    }
                     ops = solve(lastOpenBracketIdx, i, ops);
                     i -= (i - lastOpenBracketIdx);
                 } 
@@ -124,6 +189,10 @@ namespace CalculatorParser
                 {
                     openBracket.Push(i);
                 }
+            }
+            if (!isValidExpression(-1, ops.Length, ops))
+            {
+                invalidEquation();
             }
             string[] finalAnswer = solve(-1, ops.Length, ops);
             return Double.Parse(finalAnswer[0]);
@@ -136,7 +205,7 @@ namespace CalculatorParser
                 Console.Write("Enter an equation: ");
                 string equation = Console.ReadLine();
 
-                Console.WriteLine("solution: " + parseEquation(equation));
+                Console.WriteLine("Solution: " + parseEquation(equation));
                 Console.ReadLine();
             }
         }
